@@ -1,10 +1,10 @@
 package com.example.mvp_example;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mvp_example.databinding.ActivityMainBinding;
 import com.example.mvp_example.interfaces.LoginMVP;
@@ -14,6 +14,7 @@ public class MainActivity extends AppCompatActivity implements LoginMVP.View {
 
     private static final String TAG = "View";
     private ActivityMainBinding binding;
+    private LoginMVP.Presenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,10 +22,15 @@ public class MainActivity extends AppCompatActivity implements LoginMVP.View {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        LoginPresenter.getPresenter().setView(this);
+        binding.btnLogin.setOnClickListener(v -> getPresenterInstance().executeLogin("Hola", "Mundo"));
 
-        binding.btnLogin.setOnClickListener(v -> LoginPresenter.getPresenter().executeLogin("Hola", "Mundo"));
+    }
 
+    private LoginMVP.Presenter getPresenterInstance() {
+        if (presenter == null) {
+            presenter = new LoginPresenter(this);
+        }
+        return presenter;
     }
 
     @Override
@@ -37,4 +43,5 @@ public class MainActivity extends AppCompatActivity implements LoginMVP.View {
     public void showinButtonLogin(boolean isShowing) {
         binding.btnLogin.setVisibility(!isShowing ? View.VISIBLE : View.GONE);
     }
+
 }

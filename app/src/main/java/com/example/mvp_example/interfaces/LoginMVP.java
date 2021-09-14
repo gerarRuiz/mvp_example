@@ -11,7 +11,6 @@ public interface LoginMVP {
 
     interface Presenter{
 
-        void setView(LoginMVP.View view);
         void executeLogin(String user, String password);
         void onResponse(String response);
 
@@ -20,7 +19,6 @@ public interface LoginMVP {
 
     interface Model {
 
-        void setPresenter(LoginMVP.Presenter presenter);
         void doLogin(String user, String password);
 
     }
